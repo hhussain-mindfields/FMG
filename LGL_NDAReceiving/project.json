@@ -1,0 +1,77 @@
+{
+  "name": "LGL_NDAReceiving",
+  "description": "An email with a signed Individual NDA PDF attached is sent back to the FFI NDA email account inbox (RPA). The attachment is checked for their name, wet signature, witness name, and witness wet signature (Action Centre). The attachment is then saved in a SharePoint folder and the Individual NDA register is updated with the execution date to change the status to ‘Executed’ (RPA).",
+  "main": "Main.xaml",
+  "dependencies": {
+    "UiPath.Excel.Activities": "[2.9.3]",
+    "UiPath.FormActivityLibrary": "[1.9.6]",
+    "UiPath.Mail.Activities": "[1.12.3]",
+    "UiPath.MicrosoftOffice365.Activities": "[1.9.0]",
+    "UiPath.PDF.Activities": "[3.6.0]",
+    "UiPath.Persistence.Activities": "[1.4.1]",
+    "UiPath.System.Activities": "[20.10.1]",
+    "UiPath.Testing.Activities": "[22.4.3]",
+    "UiPath.UIAutomation.Activities": "[20.10.6]",
+    "UiPath.WebAPI.Activities": "[1.6.0]"
+  },
+  "webServices": [],
+  "entitiesStores": [],
+  "schemaVersion": "4.0",
+  "studioVersion": "21.10.5.0",
+  "projectVersion": "1.0.1",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": true,
+    "supportsPersistence": true,
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": true
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Process",
+    "libraryOptions": {
+      "includeOriginalXaml": false,
+      "privateWorkflows": []
+    },
+    "processOptions": {
+      "ignoredFiles": []
+    },
+    "fileInfoCollection": [
+      {
+        "editingStatus": "Publishable",
+        "testCaseId": "55ba0cab-727f-47a3-a4fe-586064997c66",
+        "dataVariationFilePath": ".variations\\FetchEmail_TestScenario_Sheet1.json",
+        "fileName": "CustomWorkflows\\FetchEmail\\FetchEmail_TestCase.xaml"
+      },
+      {
+        "editingStatus": "Publishable",
+        "testCaseId": "50d9dbaf-5b2a-4487-91ee-10df2baeb3cb",
+        "dataVariationFilePath": ".variations\\ValidateNDA_TestScenario_Sheet1.json",
+        "fileName": "CustomWorkflows\\ValidateNDA\\ValidateNDA_TestCase.xaml"
+      }
+    ],
+    "modernBehavior": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "0adab371-b2c9-4eec-89f0-4e6bc225b6fb",
+      "input": [],
+      "output": []
+    }
+  ],
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Legacy"
+}

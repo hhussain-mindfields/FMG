@@ -1,0 +1,657 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" this:Main.in_ConfigAsset="LGL_NDAReceiving_Config" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mg="clr-namespace:Microsoft.Graph;assembly=Microsoft.Graph" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ss="clr-namespace:System.Security;assembly=mscorlib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:umm="clr-namespace:UiPath.MicrosoftOffice365.Models;assembly=UiPath.MicrosoftOffice365" xmlns:upaf="clr-namespace:UiPath.Persistence.Activities.FormTask;assembly=UiPath.Persistence.Activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property sap2010:Annotation.AnnotationText="Allows the Orchestrator queue name to be passed as an argument, instead of only being defined in the configuration file." Name="in_OrchestratorQueueName" Type="InArgument(x:String)" />
+    <x:Property sap2010:Annotation.AnnotationText="Specifies the asset containing configuration settings and references to other assets and credentials on the Orchestrator." Name="in_ConfigAsset" Type="InArgument(x:String)" />
+    <x:Property Name="in_qi_TransactionItem" Type="InArgument(ui:QueueItem)" />
+    <x:Property Name="in_o365m_ProcessingMail" Type="InArgument(umm:Office365Message)" />
+    <x:Property Name="in_di_Attachment" Type="InArgument(mg:DriveItem)" />
+    <x:Property Name="in_di_SubFolders" Type="InArgument(mg:DriveItem[])" />
+  </x:Members>
+  <this:Main.in_qi_TransactionItem>
+    <InArgument x:TypeArguments="ui:QueueItem" />
+  </this:Main.in_qi_TransactionItem>
+  <this:Main.in_o365m_ProcessingMail>
+    <InArgument x:TypeArguments="umm:Office365Message" />
+  </this:Main.in_o365m_ProcessingMail>
+  <this:Main.in_di_Attachment>
+    <InArgument x:TypeArguments="mg:DriveItem" />
+  </this:Main.in_di_Attachment>
+  <this:Main.in_di_SubFolders>
+    <InArgument x:TypeArguments="mg:DriveItem[]" />
+  </this:Main.in_di_SubFolders>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>970,803</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>Main2_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="38">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Newtonsoft.Json.Linq</x:String>
+      <x:String>Newtonsoft.Json</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.Net</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>UiPath.Persistence.Activities.FormTask</x:String>
+      <x:String>UiPath.Persistence.Activities.Model.Task</x:String>
+      <x:String>UiPath.Persistence.Activities.BaseTask</x:String>
+      <x:String>UiPath.Persistence.Activities</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Security</x:String>
+      <x:String>UiPath.MicrosoftOffice365.Models</x:String>
+      <x:String>Microsoft.Graph</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="36">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>Newtonsoft.Json</AssemblyReference>
+      <AssemblyReference>UiPath.IntelligentOCR</AssemblyReference>
+      <AssemblyReference>UiPath.Python</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>UiPath.Persistence.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365</AssemblyReference>
+      <AssemblyReference>Microsoft.Graph</AssemblyReference>
+      <AssemblyReference>UiPath.MicrosoftOffice365.Activities.Design</AssemblyReference>
+      <AssemblyReference>Microsoft.Graph.Core</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <sap:WorkflowViewStateService.ViewState>
+    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+      <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
+    </scg:Dictionary>
+  </sap:WorkflowViewStateService.ViewState>
+  <StateMachine InitialState="{x:Reference __ReferenceID2}" sap2010:Annotation.AnnotationText="LGL_NDAReceiving&#xA;&#xA;An email with a signed Individual NDA PDF attached is sent back to the FFI NDA email account inbox (RPA). The attachment is checked for their name, wet signature, witness name, and witness wet signature (Action Centre). The attachment is then saved in a SharePoint folder and the Individual NDA register is updated with the execution date to change the status to ‘Executed’ (RPA)." DisplayName="General Business Process" sap:VirtualizedContainerService.HintSize="634,738" sap2010:WorkflowViewState.IdRef="StateMachine_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <av:Point x:Key="ShapeLocation">70,22.5</av:Point>
+        <x:Double x:Key="StateContainerWidth">600</x:Double>
+        <x:Double x:Key="StateContainerHeight">600</x:Double>
+        <av:PointCollection x:Key="ConnectorLocation">130,60 220,60</av:PointCollection>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <State x:Name="__ReferenceID1" sap2010:Annotation.AnnotationText="Process a single transaction. &#xA;The result of the processing can be: 1) Success, 2) Business Exception, 3) System Exception. &#xA;In the case of a system exception, the transaction can be automatically retried." DisplayName="Process Transaction" sap:VirtualizedContainerService.HintSize="902,2797" sap2010:WorkflowViewState.IdRef="State_3">
+      <State.Entry>
+        <TryCatch DisplayName="Try to process transaction" sap:VirtualizedContainerService.HintSize="856,2326" sap2010:WorkflowViewState.IdRef="TryCatch_9">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <TryCatch.Try>
+            <Sequence DisplayName="Process the current TransactionItem" sap:VirtualizedContainerService.HintSize="474,1757" sap2010:WorkflowViewState.IdRef="Sequence_28">
+              <Sequence.Variables>
+                <Variable x:TypeArguments="x:String" Name="str_Pg2StoragePath" />
+                <Variable x:TypeArguments="x:String" Name="str_Pg6StoragePath" />
+                <Variable x:TypeArguments="upaf:FormTaskData" Name="ftd_ValidateNDATaskObject" />
+                <Variable x:TypeArguments="x:String" Name="str_Fullname" />
+                <Variable x:TypeArguments="x:String" Name="str_EmailAddress" />
+                <Variable x:TypeArguments="s:DateTime" Name="dati_ExeutedDate" />
+                <Variable x:TypeArguments="x:Boolean" Name="bln_Approved" />
+              </Sequence.Variables>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke FetchEmail workflow" sap:VirtualizedContainerService.HintSize="432,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_29" UnSafe="False" WorkflowFileName="CustomWorkflows\FetchEmail\FetchEmail.xaml">
+                <ui:InvokeWorkflowFile.Arguments>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_ApplicationId">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;ApplicationId&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_TenantId">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;TenantId&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_Username">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;ADCredentialsUsername&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="ss:SecureString" x:Key="in_sstr_Password">
+                    <mva:VisualBasicValue x:TypeArguments="ss:SecureString" ExpressionText="TryCast(Config(&quot;ADCredentialsPassword&quot;),system.Security.SecureString)" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_Account">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;MailAccount&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_MailFolder">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;MailFolder&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_ProcessingFolder">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;MailProcessingFolder&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_QueueName">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;OrchestratorQueueName&quot;).ToString" />
+                  </InArgument>
+                  <OutArgument x:TypeArguments="ui:QueueItem" x:Key="out_qi_TransactionItem">
+                    <mva:VisualBasicReference x:TypeArguments="ui:QueueItem" ExpressionText="in_qi_TransactionItem" />
+                  </OutArgument>
+                  <OutArgument x:TypeArguments="umm:Office365Message" x:Key="out_o365m_ProcessingMail">
+                    <mva:VisualBasicReference x:TypeArguments="umm:Office365Message" ExpressionText="in_o365m_ProcessingMail" />
+                  </OutArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_StorageBucket">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;StorageBucket&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_SPSite">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;SPSiteURL&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_SPRootFolder">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;SPRootFolder&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_SPValidateFolder">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;SPValidateFolder&quot;).ToString" />
+                  </InArgument>
+                  <OutArgument x:TypeArguments="mg:DriveItem" x:Key="out_di_Attachment">
+                    <mva:VisualBasicReference x:TypeArguments="mg:DriveItem" ExpressionText="in_di_Attachment" />
+                  </OutArgument>
+                  <OutArgument x:TypeArguments="mg:DriveItem[]" x:Key="out_di_SubFolders">
+                    <mva:VisualBasicReference x:TypeArguments="mg:DriveItem[]" ExpressionText="in_di_SubFolders" />
+                  </OutArgument>
+                  <OutArgument x:TypeArguments="x:String" x:Key="out_str_Pg2StoragePath">
+                    <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="str_Pg2StoragePath" />
+                  </OutArgument>
+                  <OutArgument x:TypeArguments="x:String" x:Key="out_str_Pg6StoragePath">
+                    <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="str_Pg6StoragePath" />
+                  </OutArgument>
+                  <InArgument x:TypeArguments="x:String" x:Key="in_str_RejectedFolder">
+                    <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Config(&quot;MailRejectedFolder&quot;).ToString" />
+                  </InArgument>
+                  <InArgument x:TypeArguments="x:Double" x:Key="in_dbl_BizExpAHT">
+                    <mva:VisualBasicValue x:TypeArguments="x:Double" ExpressionText="Convert.ToDouble(Config(&quot;BizExpAHT&quot;))" />
+                  </InArgument>
+                </ui:InvokeWorkflowFile.Arguments>
+              </ui:InvokeWorkflowFile>
+              <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="432,51" sap2010:WorkflowViewState.IdRef="CommentOut_3">
+                <ui:CommentOut.Body>
+                  <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="376,720" sap2010:WorkflowViewState.IdRef="Sequence_36">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:SetTransactionProgress TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="Progress=&quot;NDA Validation - In Progress&quot;" DisplayName="Set Transaction Progress: qi_TransactionItem" sap:VirtualizedContainerService.HintSize="334,163" sap2010:WorkflowViewState.IdRef="SetTransactionProgress_3" Progress="NDA Validation - In Progress" TransactionItem="[in_qi_TransactionItem]">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:SetTransactionProgress>
+                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_36" Level="Info" Message="[&quot;==ValidateNDA== Progress set as 'NDA Validation - In Progress' for transaction item with reference: &quot; +in_qi_TransactionItem.Reference+ &quot;. Initiating Wait for Task and Resume for Task: &quot; +ftd_ValidateNDATaskObject.Id.ToString+ &quot;.&quot;]">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:LogMessage>
+                    <ui:SetTransactionProgress TimeoutMS="{x:Null}" sap2010:Annotation.AnnotationText="Progress=&quot;NDA Validated&quot;" DisplayName="Set Transaction Progress: qi_TransactionItem" sap:VirtualizedContainerService.HintSize="334,163" sap2010:WorkflowViewState.IdRef="SetTransactionProgress_4" Progress="NDA Validated" TransactionItem="[in_qi_TransactionItem]">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:SetTransactionProgress>
+                    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_33" Level="Info" Message="[&quot;==Main== Wait for Task and Resume completed for Task: &quot; +ftd_ValidateNDATaskObject.Id.ToString+ &quot;. Progress set as 'NDA Validated' for transaction item with reference: &quot; +in_qi_TransactionItem.Reference+ &quot;.&quot;]">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:LogMessage>
+                  </Sequence>
+                </ui:CommentOut.Body>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+              </ui:CommentOut>
+              <Sequence sap2010:Annotation.AnnotationText="Persistant process necessitates, Wait and Resume commands be invoked within the Main workflow (to be precise workflow that is enabled with Entry Point and set as Main workflow). Thus the activities related to Action Center, in this case Create Form Task, Wait for Form Task and Resume and the relavent activies are clubeed within this scope." DisplayName="Sequence: Trigger Action Center forms and Wait for response" sap:VirtualizedContainerService.HintSize="432,1147" sap2010:WorkflowViewState.IdRef="Sequence_29">
+                <Sequence.Variables>
+                  <Variable x:TypeArguments="x:String" Name="str_TaskAction" />
+                </Sequence.Variables>
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_35" Level="Info" Message="[&quot;==Main== Initiate AC Form Task.&quot;]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </ui:LogMessage>
+                <upaf:CreateFormTask BucketFolderPath="{x:Null}" BulkFormLayout="{x:Null}" ExternalTag="{x:Null}" Labels="{x:Null}" TaskCatalog="{x:Null}" TimeoutMs="{x:Null}" sap2010:Annotation.AnnotationText="I/P Agr:&#xA;out_str_Pg6StoragePath&#xA;out_str_Pg2StoragePath&#xA;&#xA;O/P Arg values assigned to:&#xA;str_Fullname&#xA;str_EmailAddress&#xA;dati_ExecutedDate&#xA;bln_Approved" BucketName="[Config(&quot;StorageBucket&quot;).ToString]" BulkFormLayoutGuid="4734b4b7-df74-4290-801a-32dff77216f7" DisplayName="Create Form Task: Validate NDA" EnableBulkEdit="False" FormLayout="%[{&quot;columns&quot;:[{&quot;components&quot;:[{&quot;label&quot;:&quot;Table&quot;,&quot;cellAlignment&quot;:&quot;center&quot;,&quot;key&quot;:&quot;table&quot;,&quot;type&quot;:&quot;table&quot;,&quot;numRows&quot;:1,&quot;numCols&quot;:1,&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;rows&quot;:[[{&quot;components&quot;:[{&quot;label&quot;:&quot;HTML&quot;,&quot;tag&quot;:&quot;div&quot;,&quot;attrs&quot;:[{&quot;attr&quot;:&quot;text-align&quot;,&quot;value&quot;:&quot;center&quot;}],&quot;content&quot;:&quot;&lt;a href={{data.PDFSPPath}} target=\&quot;_blank\&quot;&gt;SharePoint link to PDF file.&lt;/a&gt;&lt;hr&gt;&quot;,&quot;refreshOnChange&quot;:false,&quot;key&quot;:&quot;html2&quot;,&quot;type&quot;:&quot;htmlelement&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false},{&quot;label&quot;:&quot;Table&quot;,&quot;cellAlignment&quot;:&quot;center&quot;,&quot;key&quot;:&quot;table1&quot;,&quot;type&quot;:&quot;table&quot;,&quot;numRows&quot;:2,&quot;numCols&quot;:2,&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;rows&quot;:[[{&quot;components&quot;:[{&quot;label&quot;:&quot;HTML&quot;,&quot;tag&quot;:&quot;h6&quot;,&quot;attrs&quot;:[{&quot;attr&quot;:&quot;&quot;,&quot;value&quot;:&quot;&quot;}],&quot;content&quot;:&quot;Name and Email Address - Page 2.&quot;,&quot;refreshOnChange&quot;:false,&quot;key&quot;:&quot;html3&quot;,&quot;type&quot;:&quot;htmlelement&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false}]},{&quot;components&quot;:[{&quot;label&quot;:&quot;HTML&quot;,&quot;tag&quot;:&quot;h6&quot;,&quot;attrs&quot;:[{&quot;attr&quot;:&quot;&quot;,&quot;value&quot;:&quot;&quot;}],&quot;content&quot;:&quot;Date and Wet Signature - Page 6.&quot;,&quot;refreshOnChange&quot;:false,&quot;key&quot;:&quot;html4&quot;,&quot;type&quot;:&quot;htmlelement&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false}]}],[{&quot;components&quot;:[{&quot;label&quot;:&quot;HTML&quot;,&quot;tag&quot;:&quot;img&quot;,&quot;attrs&quot;:[{&quot;attr&quot;:&quot;src&quot;,&quot;value&quot;:&quot;{{ data.Pg2Path_storage }}&quot;},{&quot;attr&quot;:&quot;alt&quot;,&quot;value&quot;:&quot;Page 2 Image&quot;},{&quot;attr&quot;:&quot;width&quot;,&quot;value&quot;:&quot;595&quot;},{&quot;attr&quot;:&quot;height&quot;,&quot;value&quot;:&quot;842&quot;}],&quot;refreshOnChange&quot;:true,&quot;key&quot;:&quot;html&quot;,&quot;type&quot;:&quot;htmlelement&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false}]},{&quot;components&quot;:[{&quot;label&quot;:&quot;HTML&quot;,&quot;tag&quot;:&quot;img&quot;,&quot;attrs&quot;:[{&quot;attr&quot;:&quot;src&quot;,&quot;value&quot;:&quot;{{ data.Pg6Path_storage }}&quot;},{&quot;attr&quot;:&quot;alt&quot;,&quot;value&quot;:&quot;Page 6 Image&quot;},{&quot;attr&quot;:&quot;width&quot;,&quot;value&quot;:&quot;595&quot;},{&quot;attr&quot;:&quot;height&quot;,&quot;value&quot;:&quot;842&quot;}],&quot;refreshOnChange&quot;:true,&quot;key&quot;:&quot;html1&quot;,&quot;type&quot;:&quot;htmlelement&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false}]}]]}]}]]}],&quot;size&quot;:&quot;md&quot;,&quot;width&quot;:12,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0,&quot;currentWidth&quot;:12},{&quot;components&quot;:[{&quot;label&quot;:&quot;Enter Full Name from Pg.2&quot;,&quot;tableView&quot;:true,&quot;validate&quot;:{&quot;required&quot;:true},&quot;key&quot;:&quot;Fullname&quot;,&quot;type&quot;:&quot;textfield&quot;,&quot;input&quot;:true}],&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0,&quot;size&quot;:&quot;md&quot;,&quot;currentWidth&quot;:6},{&quot;components&quot;:[{&quot;label&quot;:&quot;Enter Executed Date from Pg.6&quot;,&quot;format&quot;:&quot;dd/MM/yyyy&quot;,&quot;tableView&quot;:true,&quot;enableMinDateInput&quot;:false,&quot;datePicker&quot;:{&quot;disableWeekends&quot;:false,&quot;disableWeekdays&quot;:false},&quot;enableMaxDateInput&quot;:false,&quot;validate&quot;:{&quot;required&quot;:true},&quot;key&quot;:&quot;ExecutedDate&quot;,&quot;type&quot;:&quot;datetime&quot;,&quot;input&quot;:true,&quot;suffix&quot;:true,&quot;widget&quot;:{&quot;type&quot;:&quot;calendar&quot;,&quot;displayInTimezone&quot;:&quot;viewer&quot;,&quot;locale&quot;:&quot;en&quot;,&quot;useLocaleSettings&quot;:false,&quot;allowInput&quot;:true,&quot;mode&quot;:&quot;single&quot;,&quot;enableTime&quot;:true,&quot;noCalendar&quot;:false,&quot;format&quot;:&quot;dd/MM/yyyy&quot;,&quot;hourIncrement&quot;:1,&quot;minuteIncrement&quot;:1,&quot;time_24hr&quot;:false,&quot;minDate&quot;:null,&quot;disableWeekends&quot;:false,&quot;disableWeekdays&quot;:false,&quot;maxDate&quot;:null}}],&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0,&quot;size&quot;:&quot;md&quot;,&quot;currentWidth&quot;:6},{&quot;components&quot;:[{&quot;label&quot;:&quot;Enter Email Address from Pg.2&quot;,&quot;tableView&quot;:true,&quot;validate&quot;:{&quot;required&quot;:true},&quot;key&quot;:&quot;EmailAddress&quot;,&quot;type&quot;:&quot;textfield&quot;,&quot;input&quot;:true}],&quot;size&quot;:&quot;md&quot;,&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0,&quot;currentWidth&quot;:6},{&quot;components&quot;:[{&quot;columns&quot;:[{&quot;components&quot;:[{&quot;label&quot;:&quot;Wet Signed in Pg.6?&quot;,&quot;optionsLabelPosition&quot;:&quot;right&quot;,&quot;inline&quot;:true,&quot;tableView&quot;:false,&quot;values&quot;:[{&quot;label&quot;:&quot;Yes&quot;,&quot;value&quot;:&quot;True&quot;,&quot;shortcut&quot;:&quot;&quot;},{&quot;label&quot;:&quot;No&quot;,&quot;value&quot;:&quot;False&quot;,&quot;shortcut&quot;:&quot;&quot;}],&quot;validate&quot;:{&quot;required&quot;:true},&quot;key&quot;:&quot;Approved&quot;,&quot;type&quot;:&quot;radio&quot;,&quot;input&quot;:true}],&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0,&quot;size&quot;:&quot;md&quot;,&quot;currentWidth&quot;:6},{&quot;components&quot;:[{&quot;type&quot;:&quot;button&quot;,&quot;label&quot;:&quot;Submit&quot;,&quot;key&quot;:&quot;submit&quot;,&quot;disableOnInvalid&quot;:true,&quot;input&quot;:true,&quot;alwaysEnabled&quot;:false,&quot;tableView&quot;:true}],&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0,&quot;size&quot;:&quot;md&quot;,&quot;currentWidth&quot;:6}],&quot;key&quot;:&quot;columns1&quot;,&quot;type&quot;:&quot;columns&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;label&quot;:&quot;Columns&quot;}],&quot;size&quot;:&quot;md&quot;,&quot;width&quot;:6,&quot;offset&quot;:0,&quot;push&quot;:0,&quot;pull&quot;:0,&quot;currentWidth&quot;:6}],&quot;autoAdjust&quot;:true,&quot;key&quot;:&quot;columns&quot;,&quot;type&quot;:&quot;columns&quot;,&quot;input&quot;:false,&quot;tableView&quot;:false,&quot;label&quot;:&quot;Columns&quot;}]" FormLayoutGuid="150780ec-0aef-417a-a756-cd6dc8afbd59" GenerateInputFields="False" sap:VirtualizedContainerService.HintSize="334,518" sap2010:WorkflowViewState.IdRef="CreateFormTask_1" TaskOutput="[ftd_ValidateNDATaskObject]" TaskPriority="[TaskPriority.High]" TaskTitle="Validate NDA">
+                  <upaf:CreateFormTask.FormData>
+                    <InArgument x:TypeArguments="x:String" x:Key="Pg2Path_storage">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="str_Pg2StoragePath" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="Pg6Path_storage">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="str_Pg6StoragePath" />
+                    </InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="PDFSPPath">
+                      <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="str_Pg2StoragePath" />
+                    </InArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="Fullname">
+                      <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="str_Fullname" />
+                    </OutArgument>
+                    <OutArgument x:TypeArguments="x:String" x:Key="EmailAddress">
+                      <mva:VisualBasicReference x:TypeArguments="x:String" ExpressionText="str_EmailAddress" />
+                    </OutArgument>
+                    <OutArgument x:TypeArguments="s:DateTime" x:Key="ExecutedDate">
+                      <mva:VisualBasicReference x:TypeArguments="s:DateTime" ExpressionText="dati_ExeutedDate" />
+                    </OutArgument>
+                    <OutArgument x:TypeArguments="x:Boolean" x:Key="Approved">
+                      <mva:VisualBasicReference x:TypeArguments="x:Boolean" ExpressionText="bln_Approved" />
+                    </OutArgument>
+                  </upaf:CreateFormTask.FormData>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </upaf:CreateFormTask>
+                <upaf:WaitForFormTaskAndResume StatusMessage="{x:Null}" TimeoutMs="{x:Null}" WaitItemDataObject="{x:Null}" sap2010:Annotation.AnnotationText="Waits for the form in AC to be actioned by a user before resuming the operation." DisplayName="Wait for Form Task and Resume: ftd_ValidateNDATaskObject" sap:VirtualizedContainerService.HintSize="334,264" sap2010:WorkflowViewState.IdRef="WaitForFormTaskAndResume_1" TaskAction="[str_TaskAction]" TaskInput="[ftd_ValidateNDATaskObject]" TaskOutput="[ftd_ValidateNDATaskObject]">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </upaf:WaitForFormTaskAndResume>
+              </Sequence>
+              <NoPersistScope DisplayName="No Persist Scope" sap:VirtualizedContainerService.HintSize="432,235" sap2010:WorkflowViewState.IdRef="NoPersistScope_2">
+                <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke ValidateNDA workflow" sap:VirtualizedContainerService.HintSize="376,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_27" UnSafe="False" WorkflowFileName="CustomWorkflows\ValidateNDA\ValidateNDA.xaml">
+                  <ui:InvokeWorkflowFile.Arguments>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_Pg6StoragePath">[str_Pg6StoragePath]</InArgument>
+                    <InArgument x:TypeArguments="mg:DriveItem" x:Key="in_di_Attachment">[in_di_Attachment]</InArgument>
+                    <InArgument x:TypeArguments="mg:DriveItem[]" x:Key="in_di_SubFolders">[in_di_SubFolders]</InArgument>
+                    <InArgument x:TypeArguments="umm:Office365Message" x:Key="in_o365m_ProcessingMail">[in_o365m_ProcessingMail]</InArgument>
+                    <InArgument x:TypeArguments="ui:QueueItem" x:Key="in_qi_TransactionItem">[in_qi_TransactionItem]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_Pg2StoragePath">[str_Pg2StoragePath]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_StorageBucket">[Config("StorageBucket").ToString]</InArgument>
+                    <InArgument x:TypeArguments="ss:SecureString" x:Key="in_sstr_Password">[TryCast(Config("ADCredentialsPassword"),system.Security.SecureString)]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_TenantId">[Config("TenantId").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_ApplicationId">[Config("ApplicationId").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_Username">[Config("ADCredentialsUsername").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_SPApprovedFolder">[Config("SPApprovedFolder").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_SPRejectedFolder">[Config("SPRejectedFolder").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_Account">[Config("MailAccount").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_ApprovedFolder">[Config("MailApprovedFolder").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_RejectedFolder">[Config("MailRejectedFolder").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:Double" x:Key="in_dbl_ApprovedAHT">[Convert.ToDouble(Config("ApprovedAHT"))]</InArgument>
+                    <InArgument x:TypeArguments="x:Double" x:Key="in_dbl_RejectedAHT">[convert.ToDouble(Config("RejectedAHT"))]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_SPIndNDARegList">[Config("SPListIndividualNDARegister").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_SPListSite">[Config("SPListURL").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_FullNameField">[Config("SPLFullNameField").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_EmailAddressField">[Config("SPLEmailAddressField").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_FFITeamEmail">[Config("BusinessEmailAddress").ToString]</InArgument>
+                    <InArgument x:TypeArguments="x:Boolean" x:Key="in_bln_Approved">[bln_Approved]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_FullName">[str_Fullname]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_EmailAddress">[str_EmailAddress]</InArgument>
+                    <InArgument x:TypeArguments="x:String" x:Key="in_str_StatusField">[Config("SPLStatusField").ToString]</InArgument>
+                    <InArgument x:TypeArguments="s:DateTime" x:Key="in_dati_ExeutedDate">[dati_ExeutedDate]</InArgument>
+                    <InArgument x:TypeArguments="x:Double" x:Key="in_dbl_BizExpAHT">[Convert.ToDouble(Config("BizExpAHT"))]</InArgument>
+                  </ui:InvokeWorkflowFile.Arguments>
+                </ui:InvokeWorkflowFile>
+              </NoPersistScope>
+            </Sequence>
+          </TryCatch.Try>
+          <TryCatch.Catches>
+            <Catch x:TypeArguments="ui:BusinessRuleException" sap:VirtualizedContainerService.HintSize="822,129" sap2010:WorkflowViewState.IdRef="Catch`1_9">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ActivityAction x:TypeArguments="ui:BusinessRuleException">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="ui:BusinessRuleException" Name="Exception" />
+                </ActivityAction.Argument>
+                <Assign DisplayName="Set transaction status to BusinessRuleException" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_26">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="ui:BusinessRuleException">[BusinessException]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="ui:BusinessRuleException">[Exception]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </ActivityAction>
+            </Catch>
+            <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="822,129" sap2010:WorkflowViewState.IdRef="Catch`1_10">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ActivityAction x:TypeArguments="s:Exception">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="s:Exception" Name="Exception" />
+                </ActivityAction.Argument>
+                <Assign DisplayName="Set transaction status to SystemException" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_27">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="s:Exception">[SystemException]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="s:Exception">[Exception]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </ActivityAction>
+            </Catch>
+          </TryCatch.Catches>
+        </TryCatch>
+      </State.Entry>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <av:Point x:Key="ShapeLocation">224.333333333333,200.666666666667</av:Point>
+          <av:Size x:Key="ShapeSize">231,187</av:Size>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          <x:Double x:Key="StateContainerWidth">197</x:Double>
+          <x:Double x:Key="StateContainerHeight">34</x:Double>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <State.Transitions>
+        <Transition sap2010:Annotation.AnnotationText="There is no need for any action in case of successful transaction.&#xA;The process should simply go to next transaction." DisplayName="Success" sap:VirtualizedContainerService.HintSize="450,549" sap2010:WorkflowViewState.IdRef="Transition_5">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:PointCollection x:Key="ConnectorLocation">397.583333333333,387.666666666667 397.583333333333,488.04 39.6,488.04 39.6,327</av:PointCollection>
+              <x:Int32 x:Key="SrcConnectionPointIndex">59</x:Int32>
+              <x:Int32 x:Key="DestConnectionPointIndex">11</x:Int32>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Transition.Condition>[SystemException Is Nothing And BusinessException is Nothing]</Transition.Condition>
+          <Transition.To>
+            <State x:Name="__ReferenceID0" sap2010:Annotation.AnnotationText="End process and close all applications used." DisplayName="End Process" sap:VirtualizedContainerService.HintSize="144,119" sap2010:WorkflowViewState.IdRef="State_1" IsFinal="True">
+              <State.Entry>
+                <If Condition="[SystemException IsNot Nothing]" DisplayName="If: SystemException IsNot Nothing" sap:VirtualizedContainerService.HintSize="484,247" sap2010:WorkflowViewState.IdRef="If_13">
+                  <If.Then>
+                    <Throw DisplayName="Throw: SystemException" Exception="[SystemException]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_2" />
+                  </If.Then>
+                  <If.Else>
+                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_32">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </Sequence>
+                  </If.Else>
+                </If>
+              </State.Entry>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <av:Point x:Key="ShapeLocation">18,208</av:Point>
+                  <av:Size x:Key="ShapeSize">144,119</av:Size>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                  <x:Double x:Key="StateContainerWidth">110</x:Double>
+                  <x:Double x:Key="StateContainerHeight">26</x:Double>
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </State>
+          </Transition.To>
+        </Transition>
+        <Transition sap2010:Annotation.AnnotationText="Business Rule Exception" DisplayName="Business Exception" sap:VirtualizedContainerService.HintSize="448.8,537.6" sap2010:WorkflowViewState.IdRef="Transition_1">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:PointCollection x:Key="ConnectorLocation">351.383333333333,387.666666666667 351.383333333333,451.04 75.6,451.04 75.6,327</av:PointCollection>
+              <x:Int32 x:Key="SrcConnectionPointIndex">43</x:Int32>
+              <x:Int32 x:Key="DestConnectionPointIndex">31</x:Int32>
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Transition.To>
+            <x:Reference>__ReferenceID0</x:Reference>
+          </Transition.To>
+          <Transition.Condition>[BusinessException IsNot Nothing]</Transition.Condition>
+        </Transition>
+        <Transition DisplayName="System Exception" sap:VirtualizedContainerService.HintSize="450,507" sap2010:WorkflowViewState.IdRef="Transition_4">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:PointCollection x:Key="ConnectorLocation">293.633333333333,387.666666666667 293.633333333333,417.666666666667 118.8,417.666666666667 118.8,327</av:PointCollection>
+              <x:Int32 x:Key="SrcConnectionPointIndex">23</x:Int32>
+              <x:Int32 x:Key="DestConnectionPointIndex">55</x:Int32>
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Transition.To>
+            <x:Reference>__ReferenceID0</x:Reference>
+          </Transition.To>
+          <Transition.Condition>[SystemException IsNot Nothing]</Transition.Condition>
+        </Transition>
+      </State.Transitions>
+    </State>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <State x:Name="__ReferenceID2" sap2010:Annotation.AnnotationText="Read configuration file and initialize applications used in the process." DisplayName="Initialization" sap:VirtualizedContainerService.HintSize="254,103" sap2010:WorkflowViewState.IdRef="State_2">
+      <State.Entry>
+        <TryCatch DisplayName="Try initializing settings and applications" sap:VirtualizedContainerService.HintSize="642,1648" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <TryCatch.Try>
+            <Sequence DisplayName="Load configurations and open applications" sap:VirtualizedContainerService.HintSize="604,1137" sap2010:WorkflowViewState.IdRef="Sequence_4">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <Assign DisplayName="Assign SystemException (initialization)" sap:VirtualizedContainerService.HintSize="562,60" sap2010:WorkflowViewState.IdRef="Assign_5">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="s:Exception">[SystemException]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="s:Exception">[Nothing]</InArgument>
+                </Assign.Value>
+              </Assign>
+              <If sap2010:Annotation.AnnotationText="An uninitialized Config dictionary indicates that it is the first run of the process." Condition="[Config is Nothing]" DisplayName="If first run, read local configuration file" sap:VirtualizedContainerService.HintSize="562,945" sap2010:WorkflowViewState.IdRef="If_1">
+                <sap:WorkflowViewStateService.ViewState>
+                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                  </scg:Dictionary>
+                </sap:WorkflowViewStateService.ViewState>
+                <If.Then>
+                  <Sequence DisplayName="First run" sap:VirtualizedContainerService.HintSize="526,727" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke InitAllSettings workflow" sap:VirtualizedContainerService.HintSize="484,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_12" UnSafe="False" WorkflowFileName="Framework\InitAllSettings.xaml">
+                      <ui:InvokeWorkflowFile.Arguments>
+                        <OutArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="out_Config">[Config]</OutArgument>
+                        <InArgument x:TypeArguments="x:String" x:Key="in_ConfigAsset">[in_ConfigAsset]</InArgument>
+                      </ui:InvokeWorkflowFile.Arguments>
+                    </ui:InvokeWorkflowFile>
+                    <If sap2010:Annotation.AnnotationText="Overwrite queue name from in configuration file in case the argument in_OrchestratorQueueName is specified.&#xA;This provides backward compatibility with &lt; 2018.3." Condition="[Not String.IsNullOrWhiteSpace(in_OrchestratorQueueName)]" DisplayName="If in_OrchestratorQueueName is specified" sap:VirtualizedContainerService.HintSize="484,304" sap2010:WorkflowViewState.IdRef="If_10">
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <If.Then>
+                        <Assign DisplayName="Assign OrchestratorQueueName" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_20">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Object">[Config("OrchestratorQueueName")]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Object">[in_OrchestratorQueueName]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                      </If.Then>
+                    </If>
+                    <ui:AddLogFields sap2010:Annotation.AnnotationText="Add the process name to the logs generated after this point. &#xA;This log field can be used to create reports and visualizations about the process." DisplayName="Add Log Fields (BusinessProcessName)" sap:VirtualizedContainerService.HintSize="484,139" sap2010:WorkflowViewState.IdRef="AddLogFields_2">
+                      <ui:AddLogFields.Fields>
+                        <InArgument x:TypeArguments="x:String" x:Key="logF_BusinessProcessName">[Config("logF_BusinessProcessName").ToString]</InArgument>
+                      </ui:AddLogFields.Fields>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                    </ui:AddLogFields>
+                  </Sequence>
+                </If.Then>
+              </If>
+            </Sequence>
+          </TryCatch.Try>
+          <TryCatch.Catches>
+            <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="608,201" sap2010:WorkflowViewState.IdRef="Catch`1_3">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ActivityAction x:TypeArguments="s:Exception">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="s:Exception" Name="Exception" />
+                </ActivityAction.Argument>
+                <Assign sap2010:Annotation.AnnotationText="Failures during the initialization are considered system exceptions and lead to the End Process state, thus finalizing the execution." DisplayName="Assign SystemException" sap:VirtualizedContainerService.HintSize="262,132" sap2010:WorkflowViewState.IdRef="Assign_21">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="s:Exception">[SystemException]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="s:Exception">[Exception]</InArgument>
+                  </Assign.Value>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Assign>
+              </ActivityAction>
+            </Catch>
+          </TryCatch.Catches>
+        </TryCatch>
+      </State.Entry>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <av:Point x:Key="ShapeLocation">220,8.5</av:Point>
+          <av:Size x:Key="ShapeSize">254,103</av:Size>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+          <x:Double x:Key="StateContainerWidth">220</x:Double>
+          <x:Double x:Key="StateContainerHeight">25</x:Double>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <State.Transitions>
+        <Transition DisplayName="Successful" sap:VirtualizedContainerService.HintSize="450,505" sap2010:WorkflowViewState.IdRef="Transition_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Int32 x:Key="SrcConnectionPointIndex">39</x:Int32>
+              <x:Int32 x:Key="DestConnectionPointIndex">38</x:Int32>
+              <av:PointCollection x:Key="ConnectorLocation">347,111.5 347,141.5 339.833333333333,141.5 339.833333333333,200.666666666667</av:PointCollection>
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Transition.To>
+            <x:Reference>__ReferenceID1</x:Reference>
+          </Transition.To>
+          <Transition.Action>
+            <ui:Comment DisplayName="Comment (default transition)" sap:VirtualizedContainerService.HintSize="334,74" sap2010:WorkflowViewState.IdRef="Comment_1" Text="Default transition is picked up if there are no errors during initialization" />
+          </Transition.Action>
+          <Transition.Condition>[SystemException is Nothing]</Transition.Condition>
+        </Transition>
+        <Transition DisplayName="System Exception (failed initialization)" sap:VirtualizedContainerService.HintSize="451.333333333333,822.666666666667" sap2010:WorkflowViewState.IdRef="Transition_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <av:PointCollection x:Key="ConnectorLocation">321.6,111.5 321.6,141.5 82.8,141.5 82.8,208</av:PointCollection>
+              <x:Int32 x:Key="SrcConnectionPointIndex">31</x:Int32>
+              <x:Int32 x:Key="DestConnectionPointIndex">34</x:Int32>
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Transition.To>
+            <x:Reference>__ReferenceID0</x:Reference>
+          </Transition.To>
+          <Transition.Action>
+            <ui:LogMessage DisplayName="Log Message (initialization failure)" sap:VirtualizedContainerService.HintSize="333.6,92.8" sap2010:WorkflowViewState.IdRef="LogMessage_26" Level="Fatal" Message="[&quot;System exception at initialization: &quot; + SystemException.Message + &quot; at Source: &quot; + SystemException.Source]" />
+          </Transition.Action>
+          <Transition.Condition>[SystemException isNot Nothing]</Transition.Condition>
+        </Transition>
+      </State.Transitions>
+    </State>
+    <StateMachine.Variables>
+      <Variable x:TypeArguments="s:Exception" sap2010:Annotation.AnnotationText="Used during transitions between states to represent exceptions other than business exceptions." Name="SystemException" />
+      <Variable x:TypeArguments="ui:BusinessRuleException" sap2010:Annotation.AnnotationText="Used during transitions between states and represents a situation that does not conform to the rules of the process being automated." Name="BusinessException" />
+      <Variable x:TypeArguments="scg:Dictionary(x:String, x:Object)" sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="Config" />
+    </StateMachine.Variables>
+  </StateMachine>
+</Activity>

@@ -1,0 +1,9 @@
+{
+  "issueKeyTestcaseValues": {},
+  "testManagerBasePath": "https://cloud.uipath.com/fortescue/NPE/testmanager_",
+  "defaultProject": {
+    "id": "01f0f237-7000-0000-59d0-0b442d884e40",
+    "name": "LGL_NDAReceiving",
+    "key": "LGLNDAR"
+  }
+}

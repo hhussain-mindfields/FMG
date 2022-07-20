@@ -1,0 +1,12 @@
+{
+  "dataVariationFileInfo": [
+    {
+      "filePath": ".variations\\FetchEmail_TestScenario_Sheet1.json",
+      "dataVariationType": "File"
+    },
+    {
+      "filePath": ".variations\\ValidateNDA_TestScenario_Sheet1.json",
+      "dataVariationType": "File"
+    }
+  ]
+}
